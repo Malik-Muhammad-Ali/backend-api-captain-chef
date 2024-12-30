@@ -1,9 +1,11 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
-const PORT = 6001;
+const PORT = process.env.PORT || 6001;
+const apiKey = process.env.NOON_API_KEY;
 
 app.use(express.json());
 app.use(cors());
@@ -17,16 +19,18 @@ app.get("/paymentStatusCheckAPI/:orderId", async (req, res) => {
       `https://api.noonpayments.com/payment/v1/order/${orderId}`,
       {
         headers: {
-          Authorization:
-            "Key_Live Y2FwdGFpbl9jaGVmLkNhcHRhaW5DaGVmQXBwOmU0NzliNjkwZmVlMzQ2ZTdhMDBjMWZjMjc3MTZjNDc1",
+          Authorization: apiKey,
         },
       }
     );
-    console.log('New Request')
+    console.log("New Request");
     console.log(response.data);
     res.send(response.data);
   } catch (error) {
     console.log(error);
+    res.status(error.response?.status || 500).send({
+      message: error.message || "Something went wrong",
+    });
   }
 });
 
