@@ -16,7 +16,7 @@ app.get("/paymentStatusCheckAPI/:orderId", async (req, res) => {
   console.log(typeof orderId);
   try {
     const response = await axios.get(
-      `https://api.noonpayments.com/payment/v1/order/${orderId}`,
+      `https://api.sa.noonpayments.com/payment/v1/${orderId}`,
       {
         headers: {
           Authorization: apiKey,
